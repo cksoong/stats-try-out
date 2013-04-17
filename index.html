@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+	  	<title>PlayBoy</title>
+	  	<meta charset="utf-8">
+	  	<link href="css/style.css" rel="stylesheet" type="text/css">
+	  	<!-- Objects -->
+	  	<script type="text/javascript" language="javascript" src="js/core/PlayerObject.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/NPCObject.js"></script>
+
+	  	<!-- Utilities -->
+	  	<script type="text/javascript" language="javascript" src="js/util/Statistics.js"></script>
+
+	  	<!-- Abstraction Functions -->
+	  	<script type="text/javascript" language="javascript" src="js/core/AbstractionList.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/AbstractTwoContainer.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/AbstractThreeContainer.js"></script>
+
+	  	<!-- Controllers -->
+	  	<script type="text/javascript" language="javascript" src="js/core/DisplayManager.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/playerActions.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/SimulationManager.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/MainEngine.js"></script>
+	  	<script type="text/javascript" language="javascript" src="js/core/InputManager.js"></script>
+
+	</head>
+
+	<header>
+	  	<h1>Global Timer: <span id="global-timer">NA</span></h1>
+	</header>
+	<body onload="gameInit('abstractOne','abstractTwo')">
+
+	  	<section id='game-section'>
+
+	  		<!-- Two Canvases Abstract 1 and 2 running Together-->
+	    	<canvas id="abstractOne" width="800" height="562"></canvas>
+	    	<canvas id="abstractTwo" width="800" height="562"></canvas>
+
+	    	<!-- Heads Up Display -->
+	      	<aside id="sideDisplay">
+	      		<div id='travel'>
+	      			<h3 class="section-header">Travel</h3>
+	      			<h4 id="display-uni">NUS</h4>
+	      			<select id='location'>
+						<optgroup label="NUS">
+							<option value="engineNUS">Engine</option>
+							<option value="artsNUS">Arts</option>
+							<option value="lawNUS">Law</option>
+						</optgroup>
+
+						<optgroup label="NTU">
+							<option value="engineNTU">Engine</option>
+							<option value="artsNTU">Arts</option>
+							<option value="lawNTU">Law</option>
+						</optgroup>
+					</select>
+	      		</div>
+
+	      		<div id="player-attributes">
+	      			<h3 class="section-header">Your Attributes</h3>
+	      			<ul>
+	      				<li>
+	      					<h4>Talent</h4>
+		      				<div class="progress progress-warning progress-striped active">
+		      					<div id='talent-bar' class="bar" style="width: 0%;"></div>
+		      				</div>
+	      				</li>
+	      				<li>
+	      					<h4>Fitness</h4>
+		      				<div class="progress progress-warning progress-striped active">
+		      					<div id='fitness-bar' class="bar" style="width: 0%;"></div>
+		      				</div>
+	      				</li>
+	      				<li>
+	      					<h4>Intellect</h4>
+		      				<div class="progress progress-warning progress-striped active">
+		      					<div id='intellect-bar' class="bar" style="width: 0%;"></div>
+		      				</div>
+	      				</li>
+	      				<li>
+	      					<h4>Reputation</h4>
+		      				<div class="progress progress-warning progress-striped active">
+		      					<div id='reputation-bar' class="bar" style="width: 0%;"></div>
+		      				</div>
+	      				</li>
+	      			</ul>
+	      		</div>
+
+	      		<div id="player-actions">
+	      			<h3 class="section-header">Your Actions</h3>
+	      			<ul>
+	      				<li>
+	      					<!--<input type="text" name="impTalent">-->
+	      					Improve Talent
+	      					<button onclick='playerActions.talent()'>2 hours</button>
+	      				</li>
+	      				<li>
+	      					Improve Fitness
+	      					<button onclick='playerActions.fitness()'>2 hours</button>
+	      				</li>
+	      				<li>
+	      					Improve Intellect
+	      					<button onclick='playerActions.intellect()'>3 hours</button>
+	      				</li>	      				
+	      			</ul>
+	      			<div id='time-left'>
+	      				<p>Unit Time Left: <span>100</span></p>
+	      			</div>
+	      			
+	      		</div>
+
+	      		<div id="other-items">
+	      			<h3 class="section-header">Other Items</h3>
+	      			<ul>
+	      				<li>
+	      					Calendar View
+	      					<button onclick="viewCalendar()">Open</button>
+	      				</li>
+	      				<li>
+	      					Competitor List
+	      					<button onclick="viewCompetitors()">Open</button>
+	      				</li>
+	      				<li>
+	      					Date List
+	      					<button onclick="viewDateList()">Open</button>
+	      				</li>
+	      			</ul>
+	      		</div>
+	    	</aside>  
+	    	
+	  	</section>
+
+	  	<!-- Toggle between Abstracts -->
+	  	<section id="ui-controllers">
+		  	<button onclick="displayAbstractOne()">Abstract 1</button>
+		  	<button onclick="displayAbstractTwo()">Abstract 2</button>
+	  	</section>
+
+
+	  	<!-- Modals for Different Items -->
+	  	<!-- ========================== -->
+
+	  	<!-- Calendar View -->
+	  	<section class='modal' id='calendar-modal'>
+	  		<h2>Calender of Events</h2>
+	  		<button onclick="closeModal()">Close</button>
+	  	</section>
+
+	  	<!-- Date List View -->
+	  	<section class='modal' id='date-list-modal'>
+	  		<h2>Girls List</h2>
+	  		<button onclick="closeModal()">Close</button>
+	  	</section>
+
+
+	  	<!-- Competitor's List View -->
+	  	<section class='modal' id='competitor-list-modal'>
+	  		<h2>Competitor's List</h2>
+	  		<button onclick="closeModal()">Close</button>
+	  	</section>
+
+	</body>
+
+</html>

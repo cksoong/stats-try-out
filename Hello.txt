@@ -1,0 +1,303 @@
+﻿
+Theory of the game:
+
+Schematics:
+
+How the attributes are like; 
+
+
+Rules of game; 
+
+Relations between NPCs and Each of the abstract level;
+
+-----------------1.1 Theory of the Game-------------------------------------------------
+
+Abstract level 1: Within Faculty
+
+Abstract Level 2: between Faculty
+
+Abstract lvl 3:University level 
+
+AL 1:
+
+The main actions and individual interactions here - rumors etc.
+
+AL2: Betwen Fac
+
+Traffic flow, influence between each fac, player's influence differs in each faculty;
+
+AL3: Uni level
+
+Enrolment, quality of students
+Affecting the success rate of the students that are already n their respectively college.
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Player Attributes$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Attributes
+
+- When the game commence, each player will be given a random distribution of attributes (with the total points not exceeding
+1)
+
+
+At the begining:  1- CreativeTalent - Fitness -studies - Reputation - wealth =0;
+
+
+ 
+Each Attribute will be affected by a faculty component.
+
+CreativeTalent = CreativeTalent + FacultyVCT;
+
+Fitness = Fitness + FacultyVF;
+
+Studies = studies + FacultyVS;
+
+Reputation = Reputation + FacultyVR;
+
+Wealth = Wealth + FacultyVW;
+
+The respective  attributes will decremental by 0.1 if an action/activity is not done in that category in 3 days.
+
+Actions to Increase it
+Creative Talent (Range from 0 to 1)
+- Take Music Class [+0.1]
+- Take Dance Class [+0.1]
+
+
+When the game commence, 
+Fitness (Range from 0 to 1)
+- Gym[+0.1]
+- Athlete[+0.1]
+Studies  (Range from 0 to 1)
+- Mugging in Library[+0.1]
+- Going Lecture/tutorial / consultation with professors[+0.1]
+Reputation  (Range from -1 to 1)
+- Don’t date too much[+0.1]
+- Well Mannered[+0.1]
+- Doing good deeds[+0.1]
+Wealth      (Range from 0 to 1)
+- Work     [+0.1]
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+~~~~~~~~~~~~~~~~~~~~~~NPC Attributes~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Preference // will be randomised with faculty factor // see below//
+- Creative Talent (0.6)
+- Fitness (0.3)
+- Studies (0.1)
+-wealth(0)
+[ based on faculty ]
+
+Attraction Array //at the start of each cycle, list of people that caught the eyes of the NPC will be in this list;
+                  //Higher chance of first date acceptance.
+- Attracted [  list of people  ]
+
+Satisfaction 1st Date
+- firstDateSatis[    ]
+
+X Factor (Only can do this during 2nd Date)(like a trigger)
+- Flowers
+- Physical Touch
+- Alcohol
+xFactor[   ] 
+
+Reputation (self)
+
+Reputation (Of all the guys in the Game World)
+- If unknown, 0
+- If know a little, becomes 0.2, 0.5...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Faculty Factor
+
+In the begining of the game; 
+The Faculty factor would be 0 for all player and NPC attributes. 
+
+
+
+For ARTS
+For the purpose for preference
+x,y,z would be randomised.
+- Creative Talent (0.6)
+- Fitness (x)
+- Studies (y)
+-wealth(z)
+where x+y+z+0.6 =1.5
+the player's attribute would be compared to the preference and the reputation would be added to the overall score 
+
+
+For Engineering
+For the purpose for preference
+x,y,z would be randomised.
+- Creative Talent (x)
+- Fitness (y)
+- Studies (0.6)
+-wealth(z)
+where x+y+z+0.6 =1.5
+the player's attribute would be compared to the preference and the reputation would be added to the overall score 
+
+For Law
+For the purpose for preference
+x,y,z would be randomised.
+- Creative Talent (x)
+- Fitness (y)
+- Studies (z)
+-wealth(w)
+where x+y+z+w = 2.5 (Higher overall requirements to be deemed attractive)
+the player's attribute would be compared to the preference and the reputation would be added to the overall score 
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+-----------------------Schematics and Gameplay ---------------------------------------------
+
+++++++++++++++++++++++++++++   AL 1 (abstract lvl 1)  +++++++++++++++++++++++++
+
+First level; ALL the events and interactions are on this level for extraction of data to the other abstract lvls
+
+
+Events - University Enrolment, Faculty Enrolment,Mid term period, examination period, Dates, Second dates, Getting Laid
+
+Movements of NPCs and the player; NPCs to move randomly with a radius sensor that notices the player once they are within
+the radius of the player;
+
+RadiusDetect = x; //where x depicts the grid radius detectable for NPC to notice 
+
+
+University enrolment affected by weighted studies scores of students in that faculty.- must be shown in this level;
+
+
+1st Dates: if(within the Attracted [  list of people  ]) = 100% chance to get a date;
+         
+       else based on difference between the combined attribute points [( APAI - APPlayer) / ( APAI + APPlayer)] * 100%
+       
+        Satisfaction 1st Date
+             - firstDateSatis= preference deviation + FacultyVariable + Reputation;
+
+        if (firstDateSatis >threshold) {2ndDateFlag =1};
+
+2nd Date
+
+        xFactor = specialActionsRating;
+        
+        specialActionsRating =[list of actions taht the player can choose based on the attributes points he has]
+                            0.2 rating    -Flowers [CreativeTalent >0.3 && wealth >0.1]         
+                            0.3 rating    -Chocolates [studies >0.3 && wealth >0.2]                  
+                            0.6 rating    -SingForDate [CreativeTalent >0.7]
+                            0.6 rating    -SweetTalk [Fitness >0.7]
+                            0.9 rating    -BuyDiamonds [wealth >0.9]
+                            0.7 rating    -ImpressHerWithKnowledge [studies >0.8]
+
+        If(xFactor+2ndDateSatis >1.5)= GetLaid; 
+                   reputation =reputaion - 0.15;
+                   NPC reputation -= 0.15;
+
+
+Activities that players can do (players can only choose 2 activities to do per day)
+                              (players may not gain more than 0.4 attributes points in a particular 
+                                    attribute e.g. Fitness in a week.
+
+Fitness
+- Gym +0.1
+
+Studies
+-Mug +0.1
+
+Wealth
+-Work   +0.1
+
+Reputation
+-Promotion of self  +0.1
+
+CreativeTalent
+-Creative Activities  +0.1
+
+
+
+
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+*************************** AL 2 (abstrct lvl 2) *********************************
+Traffic Flow
+-> Determined by Reputation level of faculty and the ease of accessibility
+
+accessibility
+- Law = -1
+-engineering = 1
+-arts =0
+
+Reputation level of faculty
+zero to one;
+
+based on overall weightage of students being within the attracted list and repuation of the students within faculty
+
+Only using reputation;
+
+
+
+
+
+
+
+
+**********************************************************************************
+
+&&&&&&&&&&&&&&&&&&&&&&&& AL 3 (Abstract lvl 3 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+University level, sets the total attribute points permissible, sets the cap on the total attribute points;
+
+3 Universities - NTU,SMU;
+
+Each university has their own distribution. 
+
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+
+-------------------------------------------------------------------------------------------------
+
+
+___________________________________________________________________________________________________________________________
+
+Architecture of the game
+
+
+
+___________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+Comments by the lecturer 
+
+:what he sees an image; player should not be on an abstrct level, that can be on a debug view;
+
+abstract map only for debugging;
+
+should not have extra information e.g. enrolment on anotherlvl, should be experienced on the first lvl;
+
+not make sense for 1 instance of higher lvl;
+
+---------------------------------------------
+
+3 rendering engines
+
+
+each NPC will have a certain attribute that cannot be reduced below a certain point.
+
+
